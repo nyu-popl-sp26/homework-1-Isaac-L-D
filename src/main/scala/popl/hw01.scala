@@ -112,7 +112,7 @@ object hw01 extends App:
 
   @tailrec def approxErr(c: Double, x0: Double, epsilon: Double): Double =
     require (epsilon > 0)
-    if abs(x0-(c/(x0*x0)))>epsilon then approxErr(c,approx(c,x0),epsilon) else x0
+    if abs(x0-(c/(x0*x0)))>=epsilon then approxErr(c,approx(c,x0),epsilon) else x0
 
   def root(c: Double): Double =
     approxErr(c, 1.0, 0.0001)

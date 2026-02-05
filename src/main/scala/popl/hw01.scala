@@ -1,5 +1,7 @@
 package popl
 
+import scala.annotation.tailrec
+
 object hw01 extends App:
   /*
    * CSCI-UA.0480-055: Homework 1
@@ -81,26 +83,36 @@ object hw01 extends App:
   /* Exercises */
 
   def abs(n: Double): Double =
-    ???
+    if n<0  then -1*n else n
 
-  def ar(p: Int): Int =
-    ???
 
-  def rep(s: String, t: String, n: Int): String =
+  def ar(p: Int): Int = {
+    if p<0 then ar(-(10*p))
+    else if p>9 then (1+ar(p/10))
+    else 1
+  }
+
+
+   def rep(s: String, t: String, n: Int): String =
     require (n >= 0)
-    ???
+     @tailrec def repHelper(s: String, t: String, n: Int,acc:String):String =
+      if n>1 then repHelper(s,t,n-1,acc+t+s) else acc
+     if n>0 then repHelper(s,t,n,s) else ""
+
 
 
   def approx(c: Double, xn: Double): Double =
-    ???
+     xn -(((xn*xn*xn)-c)/(3*xn*xn))
 
-  def approxN(c: Double, xn: Double, n: Int): Double =
+
+
+  @tailrec def approxN(c: Double, x0: Double, n: Int): Double =
     require(n >= 0)
-    ???
+    if n>0 then approxN(c,approx(c,x0),n-1) else x0
 
-  def approxErr(c: Double, xn: Double, epsilon: Double): Double =
+  @tailrec def approxErr(c: Double, x0: Double, epsilon: Double): Double =
     require (epsilon > 0)
-    ???
+    if abs(x0-(c/(x0*x0)))>epsilon then approxErr(c,approx(c,x0),epsilon) else x0
 
   def root(c: Double): Double =
     approxErr(c, 1.0, 0.0001)
